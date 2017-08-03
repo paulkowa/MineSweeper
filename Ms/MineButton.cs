@@ -76,12 +76,6 @@ namespace Ms
             {
                 if (tile.isMine) { game.board.moveMine(tile); }
                 game.startTimer();
-
-                // TEMPORARY FOR TESTING DELETE
-                // TEMPORARY FOR TESTING DELETE
-                //game.checkTiles(game.board.board[0], true);
-                // TEMPORARY FOR TESTING DELETE
-                // TEMPORARY FOR TESTING DELETE
             }
 
             if (tile.nearbyMines == 0 && tile.isMine == false) { game.checkTiles(tile); }
@@ -91,6 +85,7 @@ namespace Ms
                 game.gameLost();
             }
             else { setTile(); }
+
         }
 
         /// <summary>
@@ -100,11 +95,14 @@ namespace Ms
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-            if (e.ChangedButton == MouseButton.Left && tile.isActive && !tile.isMine) { game.checkTiles(tile); }
+            if (e.ChangedButton == MouseButton.Left && tile.isActive && !tile.isMine && !tile.isSet) { game.checkTiles(tile); }
         }
 
         public void setX()
         {
+            setFlag();
+            tile.isActive = true;
+            tile.isSet = true;
             Image x = new Image();
             x.Source = new BitmapImage(new Uri(@"/Resources/xmark.png", UriKind.RelativeOrAbsolute));
             x.VerticalAlignment = VerticalAlignment.Center;
@@ -120,15 +118,16 @@ namespace Ms
         /// </summary>
         public void setFlag()
         {
-            if (tile.isFlagged)
+            // Ignore if tile is already activated
+            if (tile.isActive) { return; }
+            else if (tile.isFlagged)
             {
                 Content = null;
                 Background = Brushes.DodgerBlue;
                 game.window.MineCounter.Text = Convert.ToString(Convert.ToInt32(game.window.MineCounter.Text) + 1);
                 tile.isFlagged = false;
             }
-            // Ignore if tile is already activated
-            else if (tile.isActive) { return; }
+
             // Set flag
             else
             {

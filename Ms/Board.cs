@@ -43,7 +43,7 @@ namespace Ms
         private void generateMines(List<Tile> board, int size)
         {
             Random rand = new Random();
-            double mines = Math.Round(size * 0.21);
+            double mines = Math.Round(size * 0.19);
             mineTotal = mines;
             while (mines > 0)
             {
@@ -66,24 +66,6 @@ namespace Ms
             board[0].isMine = true;
             mineCount(board, size);
         }
-
-        /// <summary>
-        /// Refresh the counts for nearbyMines for every tile on the board
-        /// Cannot currently be used, as running async breaks setTile()
-        /// Causes mines when clicked first to not update properly with the gui
-        /// </summary>
-        /*
-        public void refreshMineCounts()
-        {
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = false;
-            worker.DoWork += (sender, e) =>
-            {
-                mineCount(board, size);
-            };
-            worker.RunWorkerAsync();
-        } 
-        */
 
         /// <summary>
         /// Assign tiles with their correct nearby mine values

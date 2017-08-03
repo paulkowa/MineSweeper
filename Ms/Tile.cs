@@ -11,6 +11,7 @@ namespace Ms
         public bool isActive { get; set; }
         public bool isMine { get; set; }
         public bool isFlagged { get; set; }
+        public bool isSet { get; set; }
         public int nearbyMines { get; set; }
         public int index { get; private set; }
 
@@ -23,6 +24,7 @@ namespace Ms
             isActive = false;
             isMine = false;
             isFlagged = false;
+            isSet = false;
             this.index = index;
         }
 
