@@ -85,7 +85,6 @@ namespace Ms
                 game.gameLost();
             }
             else { setTile(); }
-
         }
 
         /// <summary>

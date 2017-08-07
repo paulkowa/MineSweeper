@@ -46,7 +46,7 @@ namespace Ms
 
         private void CheckVictory_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (victory) { game.gameWon(); }
+            //if (victory) { game.gameWon(); }
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Ms
     public class Game
     {
         private List<MineButton> mineButtons;
+        private List<MineButton> winList;
         public MainWindow window { get; private set; }
         public Board board { get; private set; }
         public NewGameButton newGameButton { get; private set; }
@@ -33,6 +34,7 @@ namespace Ms
             this.window = window;
             // Add new button GUI element
             createNewGameButton(this);
+            winList = new List<MineButton>();
             // Start game
             newGame();
         }
@@ -70,22 +72,12 @@ namespace Ms
             };
             disableTiles.RunWorkerCompleted += (sender, e) =>
             {
-                revealBoard();
+                revealMines();
                 while (setToX.Count > 0) { setToX.Dequeue().setX(); }
             };
 
             disableTiles.RunWorkerAsync();
             stopTimer();
-        }
-
-        public void gameWon()
-        {
-            newGameButton.gameWon();
-        }
-
-        public void checkVictory()
-        {
-
         }
 
         /// <summary>
@@ -167,6 +159,7 @@ namespace Ms
             gameActive = true;
             board = new Board(size);
             mineButtons = new List<MineButton>();
+            winList = new List<MineButton>();
         }
 
         /// <summary>
@@ -183,6 +176,7 @@ namespace Ms
                 for (int column = 0; column < 24; column++)
                 {
                     MineButton mineButton = new MineButton(board.board[index], this, index);
+                    if(!mineButton.tile.isMine) { winList.Add(mineButton); }
                     mineButtons.Add(mineButton);
                     window.UniGrid.Children.Add(mineButton);
                     index++;
@@ -193,43 +187,44 @@ namespace Ms
         /// <summary>
         /// Reveals all the mine tiles on the board
         /// </summary>
-        private void revealBoard()
+        private void revealMines()
         {
             //// Create worker to reveal mines
             Queue<MineButton> mines = new Queue<MineButton>();
-            //BackgroundWorker worker = new BackgroundWorker();
-            //worker.WorkerReportsProgress = false;
-            //worker.DoWork += (sender, e) =>
-            //{
-            for (int i = 0; i < mineButtons.Count; i++)
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = false;
+            worker.DoWork += (sender, e) =>
             {
-                if (mineButtons[i].tile.isMine)
+                for (int i = 0; i < mineButtons.Count; i++)
                 {
-                    mines.Enqueue(mineButtons[i]);
+                    if (mineButtons[i].tile.isMine)
+                    {
+                        mines.Enqueue(mineButtons[i]);
+                    }
                 }
-            }
-            //};
-            //worker.RunWorkerCompleted += (sender, e) =>
-            //{
-            //    while (mines.Count > 0)
-            //    {
-            //        MineButton mb = mines.Dequeue();
-            //        if (mb.tile.isFlagged) { mb.setFlag(); }
-            //        mb.setTile();
-            //    }
-            //    newGameButton.IsEnabled = true;
-            //};
-            //worker.RunWorkerAsync();
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Elapsed += (source, e) => {
-                MineButton mb = mines.Dequeue();
-                if (mb.tile.isFlagged) { mb.setFlag(); }
-                mb.setTile();
             };
-            timer.Interval = 15;
-            timer.Enabled = true;
+            worker.RunWorkerCompleted += (sender, e) =>
+                {
+                    while (mines.Count > 0)
+                    {
+                        MineButton mb = mines.Dequeue();
+                        if (mb.tile.isFlagged) { mb.setFlag(); }
+                        mb.setTile();
+                    }
+                    newGameButton.IsEnabled = true;
+                };
+            worker.RunWorkerAsync();
+            //System.Timers.Timer timer = new System.Timers.Timer();
+            //timer.Elapsed += (source, e) => {
+            //    MineButton mb = mines.Dequeue();
+            //    if (mb.tile.isFlagged) { mb.setFlag(); }
+            //    mb.setTile();
+            //};
+            //timer.Interval = 15;
+            //timer.Enabled = true;
+            //timer.Start();
         }
-    }
+    
 
 
         /*
