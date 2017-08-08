@@ -105,7 +105,6 @@ namespace Ms
         /// </summary>
         public void setFlag()
         {
-            // Ignore if tile is already activated
             if (tile.isActive) { return; }
             else if (tile.isFlagged)
             {

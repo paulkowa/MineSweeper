@@ -22,7 +22,9 @@ namespace Ms
             // Set button values
             setProperties();
         }
-
+        /// <summary>
+        /// Set the standard properties of a NewGameButton
+        /// </summary>
         private void setProperties()
         {
             Background = Brushes.DodgerBlue;
@@ -71,16 +73,17 @@ namespace Ms
             else { game.removeFlags(); }
             IsEnabled = true;
         }
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonUp(e);
-        }
 
+        /// <summary>
+        /// Set the image to loss.png
+        /// </summary>
         public void gameLost()
         {
             Content = loss;
         }
-
+        /// <summary>
+        /// Set the image to win.png
+        /// </summary>
         public void gameWon()
         {
             Content = win;

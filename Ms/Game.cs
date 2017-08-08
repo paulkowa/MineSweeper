@@ -29,12 +29,9 @@ namespace Ms
 
         public Game(MainWindow window)
         {
-            // Initalize variable
             this.window = window;
-            // Add new button GUI element
             createNewGameButton(this);
             winList = new List<MineButton>();
-            // Start game
             newGame();
         }
 
@@ -51,6 +48,11 @@ namespace Ms
             
         }
 
+        /*
+         * Game Won and Game lost controllers
+         * Method to update the list tracking game status
+         * 
+         */
         /// <summary>
         /// Ends the game for the user
         /// Reveals all the tiles on the board
@@ -80,12 +82,9 @@ namespace Ms
             stopTimer();
         }
 
-        public void updateVictory(MineButton mb)
-        {
-            if (winList.Contains(mb)) { winList.Remove(mb); }
-            if (winList.Count == 0) { gameWon(); }
-        }
-
+        /// <summary>
+        /// Disables all tiles, stops the timer, and ends the game once win condition is met
+        /// </summary>
         private void gameWon()
         {
             newGameButton.IsEnabled = false;
@@ -107,9 +106,24 @@ namespace Ms
             disableTiles.RunWorkerAsync();
             stopTimer();
         }
-    
-    
 
+        /// <summary>
+        /// Call to remove activated tile from the list of tiles required to win
+        /// </summary>
+        /// <param name="mb"></param>
+        public void updateVictory(MineButton mb)
+        {
+            if (winList.Contains(mb)) { winList.Remove(mb); }
+            if (winList.Count == 0) { gameWon(); }
+        }
+
+
+        /*
+         * 
+         * UI Controller methods
+         * Timer and New Game Button
+         * 
+         */
         /// <summary>
         /// Add a newGameButton to the GUI
         /// </summary>
@@ -119,6 +133,7 @@ namespace Ms
             window.TopGrid.Children.Add(newGameButton);
             Grid.SetColumn(newGameButton, 4);
         }
+
         /// <summary>
         /// Creates an async thread to track the time and update the GUI
         /// </summary>
@@ -152,6 +167,7 @@ namespace Ms
             window.Timer.Text = "0";
         }
 
+
         /*
          * Methods to handle board interactions
          * Remove all flags
@@ -160,8 +176,6 @@ namespace Ms
          * Reveal all Minbes on board and set flags to X 
          * 
          */
-
-
         /// <summary>
         /// Clear all values from the GUI board and background datastructures
         /// </summary>
@@ -220,7 +234,6 @@ namespace Ms
         /// </summary>
         private void revealMines()
         {
-            //// Create worker to reveal mines
             Queue<MineButton> mines = new Queue<MineButton>();
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = false;
@@ -245,18 +258,7 @@ namespace Ms
                     newGameButton.IsEnabled = true;
                 };
             worker.RunWorkerAsync();
-            //System.Timers.Timer timer = new System.Timers.Timer();
-            //timer.Elapsed += (source, e) => {
-            //    MineButton mb = mines.Dequeue();
-            //    if (mb.tile.isFlagged) { mb.setFlag(); }
-            //    mb.setTile();
-            //};
-            //timer.Interval = 15;
-            //timer.Enabled = true;
-            //timer.Start();
         }
-    
-
 
         /*
          *  
@@ -264,7 +266,6 @@ namespace Ms
          * Access point is checkTiles
          * 
          */
-
         /// <summary>
         /// Create a worker thread to check surrounding tiles and reveal all empty tiles in a chain
         /// </summary>
@@ -300,6 +301,7 @@ namespace Ms
             }
             if (endGame) { gameLost(); }
         }
+
         /// <summary>
         /// Check a queue of tiles for all adjacent empty tiles
         /// </summary>
