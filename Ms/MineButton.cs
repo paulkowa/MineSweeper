@@ -40,18 +40,6 @@ namespace Ms
             // Set button default background color
             Background = Brushes.DodgerBlue;
             this.BorderBrush = Brushes.White;
-
-            // TEMPORARY FOR TESTING DELETE
-            // TEMPORARY FOR TESTING DELETE
-            // TEMPORARY FOR TESTING DELETE
-            if (tile.isMine)
-            {
-                //Content = mine;
-            }
-            // TEMPORARY FOR TESTING DELETE
-            // TEMPORARY FOR TESTING DELETE
-            // TEMPORARY FOR TESTING DELETE
-
         }
         /// <summary>
         /// Right Click event handler
@@ -100,7 +88,7 @@ namespace Ms
         public void setX()
         {
             setFlag();
-            tile.isActive = true;
+            tile.setActive();
             tile.isSet = true;
             Image x = new Image();
             x.Source = new BitmapImage(new Uri(@"/Resources/xmark.png", UriKind.RelativeOrAbsolute));
@@ -146,7 +134,7 @@ namespace Ms
             {
                 Content = mine;
                 Background = Brushes.Red;
-                tile.isActive = true;
+                tile.setActive();
             }
             else
             {
@@ -157,13 +145,15 @@ namespace Ms
                     setText(t, tile);
                     Content = t;
                     Background = Brushes.PowderBlue;
-                    tile.isActive = true;
+                    tile.setActive();
+                    game.updateVictory(this);
                 }
                 else
                 {
                     Content = null;
                     Background = Brushes.PowderBlue;
-                    tile.isActive = true;
+                    tile.setActive();
+                    game.updateVictory(this);
                 }
             }
         }

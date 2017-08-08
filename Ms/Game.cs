@@ -21,12 +21,11 @@ namespace Ms
         private List<MineButton> winList;
         public MainWindow window { get; private set; }
         public Board board { get; private set; }
-        public NewGameButton newGameButton { get; private set; }
         public bool firstClick, gameActive;
         private Queue<Tile> update;
         private const int size = 576;
         private Timer time;
-        //private NewGameButton newGameButton;
+        private NewGameButton newGameButton;
 
         public Game(MainWindow window)
         {
@@ -49,6 +48,7 @@ namespace Ms
             clearBoard();
             fillBoard();
             window.MineCounter.Text = Convert.ToString(board.mineTotal);
+            
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Ms
             {
                 for (int i = 0; i < mineButtons.Count; i++)
                 {
-                    if (!mineButtons[i].tile.isMine && !mineButtons[i].tile.isFlagged) { mineButtons[i].tile.isActive = true; }
+                    if (!mineButtons[i].tile.isMine && !mineButtons[i].tile.isFlagged) { mineButtons[i].tile.setActive(); }
                     else if (mineButtons[i].tile.isFlagged && !mineButtons[i].tile.isMine) { setToX.Enqueue(mineButtons[i]); }
                 }
             };
@@ -79,6 +79,36 @@ namespace Ms
             disableTiles.RunWorkerAsync();
             stopTimer();
         }
+
+        public void updateVictory(MineButton mb)
+        {
+            if (winList.Contains(mb)) { winList.Remove(mb); }
+            if (winList.Count == 0) { gameWon(); }
+        }
+
+        private void gameWon()
+        {
+            newGameButton.IsEnabled = false;
+            BackgroundWorker disableTiles = new BackgroundWorker();
+            disableTiles.WorkerReportsProgress = false;
+            disableTiles.DoWork += (sender, e) =>
+            {
+                for (int i = 0; i < mineButtons.Count; i++)
+                {
+                    mineButtons[i].tile.setActive();
+                }
+            };
+            disableTiles.RunWorkerCompleted += (sender, e) =>
+            {
+                newGameButton.IsEnabled = true;
+                newGameButton.gameWon();            
+            };
+
+            disableTiles.RunWorkerAsync();
+            stopTimer();
+        }
+    
+    
 
         /// <summary>
         /// Add a newGameButton to the GUI
@@ -131,16 +161,6 @@ namespace Ms
          * 
          */
 
-        /// <summary>
-        /// Remove flags from every tile already flagged
-        /// </summary>
-        public void removeFlags()
-        {
-            foreach (MineButton mb in mineButtons)
-            {
-                if (mb.tile.isFlagged) { mb.setFlag(); }
-            }
-        }
 
         /// <summary>
         /// Clear all values from the GUI board and background datastructures
@@ -181,6 +201,17 @@ namespace Ms
                     window.UniGrid.Children.Add(mineButton);
                     index++;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Remove flags from every tile already flagged
+        /// </summary>
+        public void removeFlags()
+        {
+            foreach (MineButton mb in mineButtons)
+            {
+                if (mb.tile.isFlagged) { mb.setFlag(); }
             }
         }
 

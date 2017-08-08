@@ -8,7 +8,7 @@ namespace Ms
 {
     public class Tile
     {
-        public bool isActive { get; set; }
+        public bool isActive { get; private set; }
         public bool isMine { get; set; }
         public bool isFlagged { get; set; }
         public bool isSet { get; set; }
@@ -36,6 +36,12 @@ namespace Ms
         {
             if (isMine) { return 1; }
             return 0;
+        }
+
+        public void setActive()
+        {
+            if (!isActive) { isActive = !isActive; }
+            
         }
     }
 }
