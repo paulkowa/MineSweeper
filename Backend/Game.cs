@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MineSweeper
 {
-    public class Board
+    public class Game
     {
+        public Game(MainWindow window)
+        {
+
+        }
     }
 }
