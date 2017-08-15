@@ -84,17 +84,17 @@ namespace MineSweeper.GUI.Buttons
         private void setImages()
         {
             flag = new Image();
-            flag.Source = new BitmapImage(new Uri(@"/Images/sleeping.png", UriKind.RelativeOrAbsolute));
+            flag.Source = new BitmapImage(new Uri(@"/Images/flagIcon.png", UriKind.RelativeOrAbsolute));
             VerticalAlignment = VerticalAlignment.Center;
             HorizontalAlignment = HorizontalAlignment.Center;
 
             mine = new Image();
-            mine.Source = new BitmapImage(new Uri(@"/Images/sleeping.png", UriKind.RelativeOrAbsolute));
+            mine.Source = new BitmapImage(new Uri(@"/Images/mine.png", UriKind.RelativeOrAbsolute));
             VerticalAlignment = VerticalAlignment.Center;
             HorizontalAlignment = HorizontalAlignment.Center;
 
             cross = new Image();
-            cross.Source = new BitmapImage(new Uri(@"/Images/sleeping.png", UriKind.RelativeOrAbsolute));
+            cross.Source = new BitmapImage(new Uri(@"/Images/xmark.png", UriKind.RelativeOrAbsolute));
             VerticalAlignment = VerticalAlignment.Center;
             HorizontalAlignment = HorizontalAlignment.Center;
 
