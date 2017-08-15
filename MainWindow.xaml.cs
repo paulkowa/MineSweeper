@@ -1,4 +1,5 @@
 ﻿using MineSweeper.GUI.Butons;
+using MineSweeper.GUI.Buttons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,16 +24,21 @@ namespace MineSweeper
     public partial class MainWindow : Window
     {
         private Game game;
+        private List<MineButton> mineButtons;
         public MainWindow()
         {
             InitializeComponent();
+            mineButtons = new List<MineButton>();
             game = new Game(this);
             addGameControlButton(game);
+            resetBoard();
         }
 
         public void resetBoard()
         {
-
+            UniformGrid boardGrid = createGrid();
+            addMineButtons(boardGrid, game.getDifficulty());
+            this.GameBoardGrid.Children.Add(boardGrid);
         }
 
         private void addGameControlButton(Game game)
@@ -42,16 +48,24 @@ namespace MineSweeper
             Grid.SetColumn(gameControlButton, 2);
         }
 
-        private void addMineButtons(Game game)
-        {
-            GameBoardGrid.Children.Add(createGrid());
-        }
         private UniformGrid createGrid()
         {
             UniformGrid boardGrid = new UniformGrid();
             boardGrid.VerticalAlignment = VerticalAlignment.Top;
             boardGrid.HorizontalAlignment = HorizontalAlignment.Center;
+            boardGrid.Columns = game.getBoard().x;
+            boardGrid.Rows = game.getBoard().y;
             return boardGrid;
+        }
+
+        private void addMineButtons(UniformGrid boardGrid, Difficulty difficulty)
+        {
+            for (int i = 0; i < difficulty.getTileCount(); i++)
+            {
+                MineButton mb = new MineButton(game, game.getBoard().getTile(i));
+                mineButtons.Add(mb);
+                boardGrid.Children.Add(mb);
+            }
         }
     }
 }
