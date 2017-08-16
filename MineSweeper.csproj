@@ -73,6 +73,8 @@
     <Compile Include="Backend\Tile.cs" />
     <Compile Include="GUI\Buttons\GameControlButton.cs" />
     <Compile Include="GUI\Buttons\MineButton.cs" />
+    <Compile Include="Interfaces\IBoard.cs" />
+    <Compile Include="Interfaces\IDifficulty.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -9,20 +9,19 @@
         Icon="/Images/mine.png"
         Background="White"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanResize"
+        ResizeMode="CanMinimize"
         SizeToContent="WidthAndHeight"
         RenderOptions.BitmapScalingMode="HighQuality"
         RenderOptions.EdgeMode="Aliased">
     <DockPanel
         Name="MainDock"
-        Background="White"
-        Height="519"
-        Width="870">
+        LastChildFill="False"
+        Background="White">
         <Grid
             Name="TopGamePanel"
             DockPanel.Dock="Top"
             Height="50"
-            Width="500"
+            Width="400"
             Margin="0,0,0,5"
             Background="White">
             <Grid.ColumnDefinitions>
@@ -55,7 +54,7 @@
             <TextBlock
                 Name="Timer"
                 Grid.Column="1"
-                Width="100"
+                Width="80"
                 Margin="0,0,0,0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
@@ -68,7 +67,7 @@
             <TextBlock
                 Name="MineCounter"
                 Grid.Column="3"
-                Width="100"
+                Width="80"
                 Margin="0,0,0,0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
@@ -81,9 +80,9 @@
         </Grid>
         <Grid
             Name="GameBoardGrid"
-            DockPanel.Dock="Bottom"
-            Height="464"
-            Width="870"
+            DockPanel.Dock="Top"
+            Height="232"
+            Width="232"
             Background="White">
             <UniformGrid Rows="16" Columns="30" Height="464" Width="870" VerticalAlignment="Top" HorizontalAlignment="Center">
             </UniformGrid>
