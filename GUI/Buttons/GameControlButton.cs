@@ -18,8 +18,8 @@ namespace MineSweeper.GUI.Butons
         public GameControlButton(Game game)
         {
             this.game = game;
-            setImages();
-            setProperties();
+            SetImages();
+            SetProperties();
         }
         /// <summary>
         /// Event handler for left click
@@ -28,6 +28,7 @@ namespace MineSweeper.GUI.Butons
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
+            game.NewGame();
         }
         /// <summary>
         /// Event handler for right click
@@ -36,52 +37,67 @@ namespace MineSweeper.GUI.Butons
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseRightButtonDown(e);
-            gameMedium();
+            SwitchDifficulty();
+            game.NewGame();
+        }
+
+        private void SwitchDifficulty()
+        {
+            game.GetDifficulty().SwitchDifficulty();
+            int diff = game.GetDifficulty().GetDifficulty();
+
+            switch (diff)
+            {
+                case 0:
+                    GameEasy();
+                    break;
+                case 1:
+                    GameMedium();
+                    break;
+                case 2:
+                    GameHard();
+                    break;
+            }
         }
         /// <summary>
         /// Method to change appearence upon losing the game
         /// </summary>
-        public void gameLost()
+        public void GameLost()
         {
             Content = loss;
         }
         /// <summary>
         /// Method to change appearence upon winning the game
         /// </summary>
-        public void gameWon()
+        public void GameWon()
         {
             Content = win;
         }
         /// <summary>
         /// Change content image to easy
         /// </summary>
-        private void gameEasy()
+        private void GameEasy()
         {
             Content = easy;
         }
         /// <summary>
         /// Change content image to medium
         /// </summary>
-        private void gameMedium()
+        private void GameMedium()
         {
             Content = medium;
         }
         /// <summary>
         /// Change content image to hard
         /// </summary>
-        private void gameHard()
+        private void GameHard()
         {
             Content = hard;
-        }
-
-        private void setDifficultyIcon(Game game)
-        {
-            
         }
         /// <summary>
         /// Set image variables to proper content
         /// </summary>
-        private void setImages()
+        private void SetImages()
         {
             easy = new Image();
             easy.Source = new BitmapImage(new Uri(@"/Images/sleeping.png", UriKind.RelativeOrAbsolute));
@@ -112,7 +128,7 @@ namespace MineSweeper.GUI.Butons
         /// <summary>
         /// Set button properties
         /// </summary>
-        private void setProperties()
+        private void SetProperties()
         {
             Width = 60;
             Margin = new Thickness(0,3,0,3);
