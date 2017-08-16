@@ -14,15 +14,18 @@ namespace MineSweeper
         private List<Tile> board;
         public Board(Difficulty difficulty)
         {
-            tileCount = difficulty.getTileCount();
-            mineCount = difficulty.getMineCount();
             board = new List<Tile>();
-            setXY();
+            tileCount = difficulty.GetTileCount();
+            mineCount = difficulty.GetMineCount();
+            SetXY();
+            GenerateTiles();
+            GenerateMines();
+            SetTileMineCount();
         }
         /// <summary>
         /// Set x and y dimensions based on current tileCount
         /// </summary>
-        private void setXY()
+        private void SetXY()
         {
             switch (tileCount)
             {
@@ -40,29 +43,29 @@ namespace MineSweeper
         }
         /*
          * 
-         * Methods to create a board, and tiles and set tile content
+         * Methods to create a board, and tiles and Set tile content
          * 
          */
         /// <summary>
         /// Run all methods necessary to create a new board
         /// </summary>
-        private void setUpBoard()
+        private void SetUpBoard()
         {
-            generateTiles();
-            generateMines();
-            setTileMineCount();
+            GenerateTiles();
+            GenerateMines();
+            SetTileMineCount();
         }
         /// <summary>
         /// Create all the tile objects
         /// </summary>
-        private void generateTiles()
+        private void GenerateTiles()
         {
             for (int i = 0; i < tileCount; i++) { board.Add(new Tile(i)); }
         }
         /// <summary>
         /// Assign which tiles are mines
         /// </summary>
-        private void generateMines()
+        private void GenerateMines()
         {
             int mines = mineCount;
             Random rand = new Random();
@@ -71,7 +74,7 @@ namespace MineSweeper
                 int i = rand.Next(1, tileCount - 1);
                 if (!board[i].isMine)
                 {
-                    board[i].setMine();
+                    board[i].SetMine();
                     mines--;
                 }
             }
@@ -79,13 +82,14 @@ namespace MineSweeper
         /// <summary>
         /// Sets the tiles to their proper mine counts
         /// </summary>
-        private void setTileMineCount()
+        private void SetTileMineCount()
         {
             for (int i = 0; i < tileCount; i++)
             {
-                if (board[i].isMine) { board[i].setNearMines(-1); }
-                else if (i == 0 || i == x - 1 || i == (x * (y - 1)) || i == (x * y) - 1) { setCornerTiles(i); }
-                else { setRegularTiles(i); }
+                if (board[i].isMine) { board[i].SetNearMines(-1); }
+                else if (i == 0 || i == x - 1 || i == (x * (y - 1)) || i == (x * y) - 1) { SetCornerTiles(i); }
+                else { SetRegularTiles(i); }
+                //if(i == 0) { board[0].SetNearMines(GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt() + GetRightOf(i).ToInt()); }
 
             }
         }
@@ -93,24 +97,24 @@ namespace MineSweeper
         /// Sets the corner tiles mine counts
         /// </summary>
         /// <param name="i"></param>
-        private void setCornerTiles(int i)
+        private void SetCornerTiles(int i)
         {
-            if (i == 0) { board[i].setNearMines(getRightOf(i).toInt() + getLowerRightOf(i).toInt() + getLowerOf(i).toInt()); }
-            else if (i == x - 1) { board[i].setNearMines(getLeftOf(i).toInt() + getLowerLeftOf(i).toInt() + getLowerOf(i).toInt()); }
-            else if (i == (x * (y - 1))) { board[i].setNearMines(getUpperOf(i).toInt() + getUpperRightOf(i).toInt() + getRightOf(i).toInt()); }
-            else { board[i].setNearMines(getUpperOf(i).toInt() + getUpperLeftOf(i).toInt() + getLeftOf(i).toInt()); }
+            if (i == 0) { board[i].SetNearMines(GetRightOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt()); }
+            else if (i == x - 1) { board[i].SetNearMines(GetLeftOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLowerOf(i).ToInt()); }
+            else if (i == (x * (y - 1))) { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt()); }
+            else { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperLeftOf(i).ToInt() + GetLeftOf(i).ToInt()); }
         }
         /// <summary>
         /// Set all tile mine counts, except corners
         /// </summary>
         /// <param name="i"></param>
-        private void setRegularTiles(int i)
+        private void SetRegularTiles(int i)
         {
-            if (i % x == x - 1) { board[i].setNearMines(getUpperOf(i).toInt() + getUpperRightOf(i).toInt() + getLeftOf(i).toInt() + getLowerLeftOf(i).toInt() + getLowerOf(i).toInt()); }
-            else if (i % x == 0) { board[i].setNearMines(getUpperOf(i).toInt() +  getUpperRightOf(i).toInt() + getRightOf(i).toInt() + getLowerRightOf(i).toInt() + getLowerOf(i).toInt()); }
-            else if (i < x) { board[i].setNearMines(getLeftOf(i).toInt() + getLowerLeftOf(i).toInt() + getLowerOf(i).toInt() + getLowerRightOf(i).toInt() + getRightOf(i).toInt()); }
-            else if (i > x * (y - 1)) { board[i].setNearMines(getLeftOf(i).toInt() + getUpperLeftOf(i).toInt() + getUpperOf(i).toInt() + getUpperRightOf(i).toInt() + getRightOf(i).toInt()); }
-            else { board[i].setNearMines(getUpperOf(i).toInt() + getUpperRightOf(i).toInt() + getRightOf(i).toInt() + getLowerRightOf(i).toInt() + getLowerOf(i).toInt() + getLowerLeftOf(i).toInt() + getLeftOf(i).toInt() + getUpperLeftOf(i).toInt()); }
+            if (i % x == x - 1) { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetLeftOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLowerOf(i).ToInt()); }
+            else if (i % x == 0) { board[i].SetNearMines(GetUpperOf(i).ToInt() +  GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt()); }
+            else if (i < x) { board[i].SetNearMines(GetLeftOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLowerOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetRightOf(i).ToInt()); }
+            else if (i > x * (y - 1)) { board[i].SetNearMines(GetLeftOf(i).ToInt() + GetUpperLeftOf(i).ToInt() + GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt()); }
+            else { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLeftOf(i).ToInt() + GetUpperLeftOf(i).ToInt()); }
         }
         /*
          * 
@@ -121,20 +125,20 @@ namespace MineSweeper
         /// Swap a given tile to the location 0 in the board
         /// </summary>
         /// <param name="t"></param>
-        public void moveMine(Tile t)
+        public void MoveMine(Tile t)
         {
-            board[t.index].setMine();
-            board[0].setMine();
-            setTileMineCount();
+            board[t.index].SetMine();
+            board[0].SetMine();
+            SetTileMineCount();
         }
         /// <summary>
         /// Get tile at index
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index</returns>
-        public Tile getTile(int index)
+        public Tile GetTile(int index)
         {
-            if (checkValidIndex(index)) { return board[index]; }
+            if (CheckValidIndex(index)) { return board[index]; }
             return null;
         }
         /// <summary>
@@ -142,9 +146,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index - 1</returns>
-        public Tile getLeftOf(int index)
+        public Tile GetLeftOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index - 1]; }
+            if (CheckValidIndex(index)) { return board[index - 1]; }
             return null;
         }
         /// <summary>
@@ -152,9 +156,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index - (x - 1)</returns>
-        public Tile getUpperLeftOf(int index)
+        public Tile GetUpperLeftOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index - (x - 1)]; }
+            if (CheckValidIndex(index)) { return board[index - (x + 1)]; }
             return null;
         }
         /// <summary>
@@ -162,9 +166,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index - x</returns>
-        public Tile getUpperOf(int index)
+        public Tile GetUpperOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index - x]; }
+            if (CheckValidIndex(index)) { return board[index - x]; }
             return null;
         }
         /// <summary>
@@ -172,9 +176,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index - (x + 1)</returns>
-        public Tile getUpperRightOf(int index)
+        public Tile GetUpperRightOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index - (x + 1)]; }
+            if (CheckValidIndex(index)) { return board[index - (x - 1)]; }
             return null;
         }
         /// <summary>
@@ -182,9 +186,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index + 1</returns>
-        public Tile getRightOf(int index)
+        public Tile GetRightOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index + 1]; }
+            if (CheckValidIndex(index)) { return board[index + 1]; }
             return null;
         }
         /// <summary>
@@ -192,9 +196,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index + (x + 1)</returns>
-        public Tile getLowerRightOf(int index)
+        public Tile GetLowerRightOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index + (x + 1)]; }
+            if (CheckValidIndex(index)) { return board[index + x + 1]; }
             return null;
         }
         /// <summary>
@@ -202,9 +206,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index + x</returns>
-        public Tile getLowerOf(int index)
+        public Tile GetLowerOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index + x]; }
+            if (CheckValidIndex(index)) { return board[index + x]; }
             return null;
         }
         /// <summary>
@@ -212,9 +216,9 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns>Tile at index + (x - 1)</returns>
-        public Tile getLowerLeftOf(int index)
+        public Tile GetLowerLeftOf(int index)
         {
-            if (checkValidIndex(index)) { return board[index + (x - 1)]; }
+            if (CheckValidIndex(index)) { return board[index + (x - 1)]; }
             return null;
         }
         /// <summary>
@@ -222,7 +226,7 @@ namespace MineSweeper
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        private bool checkValidIndex(int index)
+        private bool CheckValidIndex(int index)
         {
             if (index < 0 || index > board.Count - 1) { return false; }
             return true;

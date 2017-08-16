@@ -11,8 +11,8 @@ namespace MineSweeper
         public bool isActive { get; private set; }
         public bool isMine { get; private set; }
         public bool isFlag { get; private set; }
-        public int nearMines { get; private set; }
         public int index { get; private set; }
+        private int nearMines;
 
         public Tile(int index)
         {
@@ -26,33 +26,41 @@ namespace MineSweeper
         /// <summary>
         /// Sets isActive to the opposite of its current state
         /// </summary>
-        public void setActive()
+        public void SetActive()
         {
             isActive = !isActive;
         }
         /// <summary>
         /// Sets isFlag is the opposite of its current state
         /// </summary>
-        public void setFlag()
+        public void SetFlag()
         {
             isFlag = !isFlag;
         }
         /// <summary>
         /// Sets isMine to the opposite of its current state
         /// </summary>
-        public void setMine()
+        public void SetMine()
         {
             isMine = !isMine;
         }
-        public void setNearMines(int mines)
+        public void SetNearMines(int mines)
         {
             nearMines = mines;
+        }
+        /// <summary>
+        /// Gets the number of mines adjacent to this tile
+        /// </summary>
+        /// <returns>Int number of mines adjacent to this tile</returns>
+        public int GetNearMines()
+        {
+            return nearMines;
         }
         /// <summary>
         /// Convert tile to an integer value
         /// </summary>
         /// <returns>1 if the tile is a mine, 0 otherwise</returns>
-        public int toInt()
+        public int ToInt()
         {
             if (isMine) { return 1; }
             return 0;
