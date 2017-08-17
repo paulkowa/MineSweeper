@@ -13,6 +13,7 @@
         SizeToContent="WidthAndHeight"
         RenderOptions.BitmapScalingMode="HighQuality"
         RenderOptions.EdgeMode="Aliased">
+
     <DockPanel
         Name="MainDock"
         LastChildFill="False"

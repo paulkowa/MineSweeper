@@ -1,4 +1,4 @@
-﻿using MineSweeper.GUI.Butons;
+﻿﻿using MineSweeper.GUI.Butons;
 using MineSweeper.GUI.Buttons;
 using System;
 using System.Collections.Generic;
@@ -173,6 +173,11 @@ namespace MineSweeper
         public void SetTotalMines(int mines)
         {
             this.MineCounter.Text = Convert.ToString(mines);
+        }
+        
+        public void ActivateMineButton(int index)
+        {
+            mineButtons[index].SetTile();
         }
     }
 }
