@@ -131,7 +131,7 @@ namespace MineSweeper.GUI.Butons
         private void SetProperties()
         {
             Width = 60;
-            Margin = new Thickness(0,3,0,3);
+            Margin = new Thickness(0, 3, 0, 3);
             VerticalAlignment = VerticalAlignment.Center;
             HorizontalAlignment = HorizontalAlignment.Center;
             Background = Brushes.DodgerBlue;

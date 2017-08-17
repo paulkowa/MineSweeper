@@ -59,9 +59,9 @@ namespace MineSweeper.GUI.Buttons
          * Methods used on events to change state of button
          * 
          */
-         /// <summary>
-         /// Flags the current tile if not flagged or active, if already flagged remove flag, if active do nothing.
-         /// </summary>
+        /// <summary>
+        /// Flags the current tile if not flagged or active, if already flagged remove flag, if active do nothing.
+        /// </summary>
         public void FlagTile()
         {
             if (tile.isActive) { return; }
@@ -112,7 +112,7 @@ namespace MineSweeper.GUI.Buttons
          * Methods to set the gui properties of this button
          * 
          */
-         private TextBlock CreateButtonText()
+        private TextBlock CreateButtonText()
         {
             TextBlock t = new TextBlock();
             t.TextAlignment = TextAlignment.Center;
