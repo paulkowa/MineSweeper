@@ -110,8 +110,8 @@ namespace MineSweeper
         /// <param name="i"></param>
         private void SetRegularTiles(int i)
         {
-            if (i % x == x - 1) { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetLeftOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLowerOf(i).ToInt()); }
-            else if (i % x == 0) { board[i].SetNearMines(GetUpperOf(i).ToInt() +  GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt()); }
+            if (i % x == x - 1) { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperLeftOf(i).ToInt() + GetLeftOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLowerOf(i).ToInt()); }
+            else if (i % x == 0) { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt()); }
             else if (i < x) { board[i].SetNearMines(GetLeftOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLowerOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetRightOf(i).ToInt()); }
             else if (i > x * (y - 1)) { board[i].SetNearMines(GetLeftOf(i).ToInt() + GetUpperLeftOf(i).ToInt() + GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt()); }
             else { board[i].SetNearMines(GetUpperOf(i).ToInt() + GetUpperRightOf(i).ToInt() + GetRightOf(i).ToInt() + GetLowerRightOf(i).ToInt() + GetLowerOf(i).ToInt() + GetLowerLeftOf(i).ToInt() + GetLeftOf(i).ToInt() + GetUpperLeftOf(i).ToInt()); }
